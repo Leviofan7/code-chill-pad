@@ -106,7 +106,7 @@ export const DevPanel = () => {
         {/* Main Layout */}
         <div className="flex-1 flex">
           {/* Left Panel - Files/Chat/Terminal Switcher */}
-          <div className="w-80 bg-card border-r border-border flex flex-col">
+          <div className="w-80 bg-card border-r border-border flex flex-col h-full overflow-hidden">
             {activePanel === 'files' && <FileExplorer onFileOpen={handleFileOpen} />}
             {activePanel === 'chat' && <ChatPanel />}
             {activePanel === 'terminal' && <Terminal />}
