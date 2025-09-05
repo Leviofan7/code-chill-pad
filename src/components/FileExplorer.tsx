@@ -51,11 +51,7 @@ const initialFiles: FileNode[] = [
   { id: '6', name: 'README.md', type: 'file' },
 ];
 
-interface FileExplorerProps {
-  onFileOpen?: (fileName: string, content?: string) => void;
-}
-
-export const FileExplorer = ({ onFileOpen }: FileExplorerProps) => {
+export const FileExplorer = () => {
   const [files, setFiles] = useState<FileNode[]>(initialFiles);
   const [selectedFile, setSelectedFile] = useState<string | null>(null);
 
@@ -116,7 +112,6 @@ export const FileExplorer = ({ onFileOpen }: FileExplorerProps) => {
               toggleFolder(node.id);
             } else {
               setSelectedFile(node.id);
-              onFileOpen?.(node.name);
             }
           }}
         >

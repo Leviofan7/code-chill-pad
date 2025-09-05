@@ -67,8 +67,8 @@ export const ChatPanel = () => {
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1">
-        <div className="space-y-4 p-3">
+      <ScrollArea className="flex-1 p-3">
+        <div className="space-y-4">
           {messages.map((msg) => (
             <div
               key={msg.id}
