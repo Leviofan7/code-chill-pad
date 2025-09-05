@@ -61,7 +61,37 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				terminal: {
+					bg: 'hsl(var(--terminal-bg))',
+					text: 'hsl(var(--terminal-text))',
+					green: 'hsl(var(--terminal-green))',
+					blue: 'hsl(var(--terminal-blue))',
+					purple: 'hsl(var(--terminal-purple))',
+					yellow: 'hsl(var(--terminal-yellow))',
+					red: 'hsl(var(--terminal-red))'
+				},
+				chat: {
+					bubble: 'hsl(var(--chat-bubble))',
+					'bubble-own': 'hsl(var(--chat-bubble-own))'
+				},
+				'sidebar-hover': 'hsl(var(--sidebar-hover))',
+				'editor-bg': 'hsl(var(--editor-bg))'
+			},
+			backgroundImage: {
+				'gradient-primary': 'var(--gradient-primary)',
+				'gradient-accent': 'var(--gradient-accent)'
+			},
+			boxShadow: {
+				glow: 'var(--shadow-glow)',
+				terminal: 'var(--shadow-terminal)'
+			},
+			transitionProperty: {
+				smooth: 'var(--transition-smooth)',
+				fast: 'var(--transition-fast)'
+			},
+			fontFamily: {
+				mono: ['JetBrains Mono', 'Fira Code', 'Monaco', 'Consolas', 'monospace']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
