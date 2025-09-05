@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Save, Play, Bug, Settings, MoreHorizontal } from "lucide-react";
+import { Save, Play, Bug, Settings, MoreHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -11,8 +11,14 @@ interface EditorTab {
   modified: boolean;
 }
 
-export const CodeEditor = () => {
-  const [tabs, setTabs] = useState<EditorTab[]>([
+interface CodeEditorProps {
+  tabs?: EditorTab[];
+  onFileClose?: (fileId: string) => void;
+  onFileChange?: (fileId: string, content: string) => void;
+}
+
+export const CodeEditor = ({ tabs = [], onFileClose, onFileChange }: CodeEditorProps) => {
+  const [defaultTabs] = useState<EditorTab[]>([
     {
       id: '1',
       name: 'DevPanel.tsx',
@@ -56,7 +62,8 @@ export const DevPanel = () => {
     }
   ]);
 
-  const [activeTab, setActiveTab] = useState('1');
+  const currentTabs = tabs.length > 0 ? tabs : defaultTabs;
+  const [activeTab, setActiveTab] = useState(currentTabs[0]?.id || '1');
 
   const getLanguageColor = (language: string) => {
     switch (language) {
@@ -144,25 +151,40 @@ export const DevPanel = () => {
       </div>
 
       {/* Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-        <TabsList className="w-full justify-start rounded-none bg-card border-b border-border h-10 px-2">
-          {tabs.map((tab) => (
-            <TabsTrigger
-              key={tab.id}
-              value={tab.id}
-              className="px-3 py-1.5 text-xs font-mono data-[state=active]:bg-editor-bg rounded-t border-t border-l border-r border-border data-[state=active]:border-b-editor-bg relative"
-            >
-              <span className={getLanguageColor(tab.language)}>
-                {tab.name}
-              </span>
-              {tab.modified && (
-                <span className="w-2 h-2 bg-terminal-yellow rounded-full ml-2"></span>
-              )}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      {currentTabs.length > 0 ? (
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
+          <TabsList className="w-full justify-start rounded-none bg-card border-b border-border h-10 px-2">
+            {currentTabs.map((tab) => (
+              <TabsTrigger
+                key={tab.id}
+                value={tab.id}
+                className="px-3 py-1.5 text-xs font-mono data-[state=active]:bg-editor-bg rounded-t border-t border-l border-r border-border data-[state=active]:border-b-editor-bg relative group"
+              >
+                <span className={getLanguageColor(tab.language)}>
+                  {tab.name}
+                </span>
+                {tab.modified && (
+                  <span className="w-2 h-2 bg-terminal-yellow rounded-full ml-2"></span>
+                )}
+                {onFileClose && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-4 h-4 p-0 ml-2 opacity-0 group-hover:opacity-100 hover:bg-destructive hover:text-destructive-foreground rounded-sm"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onFileClose(tab.id);
+                    }}
+                  >
+                    <X size={10} />
+                  </Button>
+                )}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-        {tabs.map((tab) => (
+          {currentTabs.map((tab) => (
           <TabsContent
             key={tab.id}
             value={tab.id}
@@ -173,7 +195,15 @@ export const DevPanel = () => {
             </div>
           </TabsContent>
         ))}
-      </Tabs>
+        </Tabs>
+      ) : (
+        <div className="flex-1 flex items-center justify-center bg-editor-bg">
+          <div className="text-center text-muted-foreground">
+            <p className="text-lg font-mono">Добро пожаловать в редактор</p>
+            <p className="text-sm mt-2">Выберите файл для редактирования</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
